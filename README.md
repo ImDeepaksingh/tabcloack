@@ -1,6 +1,6 @@
-# 🔒 TabGuard – Advanced Tab Privacy Extension
+# 🔒 TabCloack – Advanced Tab Privacy Extension
 
-TabGuard protects your browsing flow by stealthily locking or outright disguising your active browser tabs.
+TabCloack protects your browsing flow by stealthily locking or outright disguising your active browser tabs.
 
 ---
 
@@ -24,8 +24,8 @@ TabGuard protects your browsing flow by stealthily locking or outright disguisin
 
 1. Open Firefox and navigate to `about:debugging#/runtime/this-firefox`
 2. Click **"Load Temporary Add-on…"**
-3. Open the TabGuard folder and select **`manifest.json`**
-4. Pin the 🔒 TabGuard icon to your toolbar to access the manager.
+3. Open the TabCloack folder and select **`manifest.json`**
+4. Pin the 🔒 TabCloack icon to your toolbar to access the manager.
 
 *For permanent installation (unsigned in development), configure `about:config` by toggling `xpinstall.signatures.required` to `false`, and install from the add-on gallery.*
 
@@ -34,7 +34,7 @@ TabGuard protects your browsing flow by stealthily locking or outright disguisin
 ## ⚙️ Usage Guide
 
 ### Protecting a Tab
-1. Click the TabGuard icon while on a tab you wish to secure.
+1. Click the TabCloack icon while on a tab you wish to secure.
 2. Choose your **Mode**:
    - **Password Lock (Secure):** Set a password to lock the content behind a cryptographic vault overlay.
    - **Google Disguise (No Password):** Turn the tab into a fake Google Search without needing a password.
@@ -43,17 +43,17 @@ TabGuard protects your browsing flow by stealthily locking or outright disguisin
 
 ### Accessing Protected Tabs
 - **Password Locked:** Focus the tab and enter your password directly on the injected vault screen.
-- **Google Disguised:** Open the TabGuard extension popup and click the red **Remove Lock** button on the target tab.
+- **Google Disguised:** Open the TabCloack extension popup and click the red **Remove Lock** button on the target tab.
 
 ### The Panic Shortcut
 Press `Ctrl+Shift+L` anytime to immediately trigger locks/disguises on all protected tabs. You will be actively redirected to an un-locked tab or a blank page.
 
 ### The Nuclear Option
-If TabGuard's background process is suddenly terminated (via browser disable, internal crash, or uninstall), any currently-open locked tabs will instantly detect the connection loss, change their URL to Google, and self-terminate the window to prevent data leakage.
+If TabCloack's background process is suddenly terminated (via browser disable, internal crash, or uninstall), any currently-open locked tabs will instantly detect the connection loss, change their URL to Google, and self-terminate the window to prevent data leakage.
 
 ---
 
 ## 🔐 Security Considerations
 
 - The lock screen vault and disguise overlays are injected via a DOM content script. Ensure this complements your device-level security (like OS lock screens).
-- TabGuard runs entirely offline `browser.storage.local`. None of your settings or password hashes leave your local machine.
+- TabCloack runs entirely offline using `browser.storage.local`. None of your settings or password hashes ever leave your local machine.

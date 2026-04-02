@@ -1,0 +1,58 @@
+{
+  "manifest_version": 2,
+  "name": "TabCloack",
+  "version": "1.0.0",
+  "description": "Lock, disguise, and password-protect your browser tabs. Tabs close automatically if the extension is disabled.",
+  "author": "Deepak",
+  "permissions": [
+    "tabs",
+    "storage",
+    "activeTab",
+    "<all_urls>"
+  ],
+  "background": {
+    "scripts": [
+      "background.js"
+    ],
+    "persistent": true
+  },
+  "browser_action": {
+    "default_popup": "popup.html",
+    "default_title": "TabCloak – Tab Locker",
+    "default_icon": {
+      "48": "icons/icon-48.png",
+      "96": "icons/icon-96.png"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "run_at": "document_start",
+      "all_frames": false
+    }
+  ],
+  "commands": {
+    "panic-lock": {
+      "suggested_key": {
+        "default": "Ctrl+Alt+L",
+        "mac": "MacCtrl+Shift+L"
+      },
+      "description": "Panic: instantly re-lock all locked tabs and switch away"
+    }
+  },
+  "icons": {
+    "48": "icons/icon-48.png",
+    "96": "icons/icon-96.png"
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "tabcloak@extension",
+      "strict_min_version": "109.0"
+    }
+  }
+}
