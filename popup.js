@@ -227,16 +227,21 @@ async function renderLockedList(allLocked) {
   countEl.textContent = entries.length;
 
   if (entries.length === 0) {
-    list.innerHTML = `
-      <div class="empty">
-        <div class="empty-icon">🛡️</div>
-        <p>No tabs are hiding yet.</p>
-      </div>
-    `;
+    list.textContent = "";
+    const emptyDiv = document.createElement("div");
+    emptyDiv.className = "empty";
+    const emptyIcon = document.createElement("div");
+    emptyIcon.className = "empty-icon";
+    emptyIcon.textContent = "🛡️";
+    const emptyText = document.createElement("p");
+    emptyText.textContent = "No tabs are hiding yet.";
+    emptyDiv.appendChild(emptyIcon);
+    emptyDiv.appendChild(emptyText);
+    list.appendChild(emptyDiv);
     return;
   }
 
-  list.innerHTML = "";
+  list.textContent = "";
 
   const tabDetails = {};
   for (const [tabId] of entries) {
@@ -256,26 +261,61 @@ async function renderLockedList(allLocked) {
     item.className = "locked-item";
     item.dataset.tabId = tabId;
 
-    let emoji = info.mode === "disguise" ? "🎭" : "🔒";
-    let faviconHTML = `<div class="locked-item-icon">${emoji}</div>`;
+    let iconWrap = document.createElement("div");
+    iconWrap.className = "locked-item-icon";
+    iconWrap.textContent = info.mode === "disguise" ? "🎭" : "🔒";
 
-    item.innerHTML = `
-      ${faviconHTML}
-      <div class="locked-item-info">
-        <div class="locked-item-title" title="${escHtml(info.originalTitle || "Tab #" + tabId)}">
-          ${escHtml(info.originalTitle || "Tab #" + tabId)}
-          ${isCurrentTab ? '<span style="font-size:9px;color:var(--accent);margin-left:5px;font-weight:700;">CURRENT</span>' : ""}
-        </div>
-        <div class="locked-item-disguise">
-          ${info.mode === "disguise" ? 'Disguised as' : 'Masked as'}: <em style="color:rgba(255,255,255,0.5)">"${escHtml(info.disguiseTitle)}"</em>
-          ${info.note ? ' · 📝 Note' : ''}
-        </div>
-      </div>
-      <div class="locked-item-actions">
-        <button class="btn btn-ghost btn-sm" data-action="focus" data-id="${tabId}" title="Switch to tab">→</button>
-        <button class="btn btn-danger btn-sm" data-action="remove" data-id="${tabId}" title="Remove protection">✕</button>
-      </div>
-    `;
+    let infoWrap = document.createElement("div");
+    infoWrap.className = "locked-item-info";
+
+    let titleEl = document.createElement("div");
+    titleEl.className = "locked-item-title";
+    let titleText = info.originalTitle || "Tab #" + tabId;
+    titleEl.title = titleText;
+    titleEl.textContent = titleText;
+    if (isCurrentTab) {
+      let curSpan = document.createElement("span");
+      curSpan.style.cssText = "font-size:9px;color:var(--accent);margin-left:5px;font-weight:700;";
+      curSpan.textContent = "CURRENT";
+      titleEl.appendChild(curSpan);
+    }
+
+    let descEl = document.createElement("div");
+    descEl.className = "locked-item-disguise";
+    descEl.textContent = (info.mode === "disguise" ? 'Disguised as' : 'Masked as') + ": ";
+    let emEl = document.createElement("em");
+    emEl.style.cssText = "color:rgba(255,255,255,0.5)";
+    emEl.textContent = '"' + info.disguiseTitle + '"';
+    descEl.appendChild(emEl);
+    if (info.note) {
+      descEl.appendChild(document.createTextNode(' · 📝 Note'));
+    }
+    infoWrap.appendChild(titleEl);
+    infoWrap.appendChild(descEl);
+
+    let actionsWrap = document.createElement("div");
+    actionsWrap.className = "locked-item-actions";
+
+    let btnF = document.createElement("button");
+    btnF.className = "btn btn-ghost btn-sm";
+    btnF.dataset.action = "focus";
+    btnF.dataset.id = tabId;
+    btnF.title = "Switch to tab";
+    btnF.textContent = "→";
+
+    let btnR = document.createElement("button");
+    btnR.className = "btn btn-danger btn-sm";
+    btnR.dataset.action = "remove";
+    btnR.dataset.id = tabId;
+    btnR.title = "Remove protection";
+    btnR.textContent = "✕";
+
+    actionsWrap.appendChild(btnF);
+    actionsWrap.appendChild(btnR);
+
+    item.appendChild(iconWrap);
+    item.appendChild(infoWrap);
+    item.appendChild(actionsWrap);
 
     list.appendChild(item);
   }
@@ -301,12 +341,17 @@ async function renderLockedList(allLocked) {
         const remaining = list.querySelectorAll(".locked-item").length;
         countEl.textContent = remaining;
         if (remaining === 0) {
-          list.innerHTML = `
-            <div class="empty">
-              <div class="empty-icon">🛡️</div>
-              <p>No tabs are hiding yet.</p>
-            </div>
-          `;
+          list.textContent = "";
+          const emptyDiv2 = document.createElement("div");
+          emptyDiv2.className = "empty";
+          const emptyIcon2 = document.createElement("div");
+          emptyIcon2.className = "empty-icon";
+          emptyIcon2.textContent = "🛡️";
+          const emptyText2 = document.createElement("p");
+          emptyText2.textContent = "No tabs are hiding yet.";
+          emptyDiv2.appendChild(emptyIcon2);
+          emptyDiv2.appendChild(emptyText2);
+          list.appendChild(emptyDiv2);
         }
       }, 250);
     });

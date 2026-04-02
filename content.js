@@ -76,8 +76,10 @@
     const overlay = document.createElement("div");
     overlay.id = OVERLAY_ID;
 
+    const parser = new DOMParser();
+
     if (state.mode === "disguise") {
-      overlay.innerHTML = `
+      const gHtml = `
         <style>
           #${OVERLAY_ID} {
             all: initial !important; position: fixed !important; inset: 0 !important; width: 100vw !important; height: 100vh !important;
@@ -102,37 +104,37 @@
           <button id="__tc_g_btn">I'm Feeling Lucky</button>
         </div>
       `;
+      const doc = parser.parseFromString(gHtml, 'text/html');
+      while (doc.head.firstChild) overlay.appendChild(doc.head.firstChild);
+      while (doc.body.firstChild) overlay.appendChild(doc.body.firstChild);
       document.documentElement.appendChild(overlay);
       return; 
     }
 
-    const style = document.createElement("style");
-    style.textContent = `
-      #${OVERLAY_ID} { all: initial !important; position: fixed !important; inset: 0 !important; width: 100vw !important; height: 100vh !important; background: #060608 !important; z-index: 2147483647 !important; display: flex !important; align-items: center !important; justify-content: center !important; font-family: 'DM Sans', 'Segoe UI', system-ui, sans-serif !important; overflow: hidden !important; }
-      #__tc_bg__ { position: absolute; inset: 0; background: radial-gradient(ellipse 600px 500px at 20% 40%, rgba(99,57,255,0.08) 0%, transparent 70%), radial-gradient(ellipse 400px 400px at 80% 60%, rgba(180,57,255,0.05) 0%, transparent 70%); pointer-events: none; }
-      #__tc_card__ { position: relative; background: rgba(255,255,255,0.025); border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; padding: 44px 40px; width: 360px; text-align: center; box-shadow: 0 32px 80px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.07); }
-      #__tc_icon__ { font-size: 44px; display: block; margin-bottom: 18px; filter: drop-shadow(0 0 24px rgba(111,88,255,0.6)); animation: __tc_float__ 3s ease-in-out infinite; }
-      @keyframes __tc_float__ { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
-      @keyframes __tc_shake__ { 0%,100% { transform: translateX(0); } 15% { transform: translateX(-9px); } 30% { transform: translateX(9px); } 45% { transform: translateX(-6px); } 60% { transform: translateX(6px); } 75% { transform: translateX(-3px); } 90% { transform: translateX(3px); } }
-      #__tc_card__.shaking { animation: __tc_shake__ 0.5s ease !important; }
-      #__tc_title__ { color: #ffffff; font-size: 22px; font-weight: 700; letter-spacing: -0.5px; margin: 0 0 6px; }
-      #__tc_sub__ { color: rgba(255,255,255,0.35); font-size: 13px; margin: 0 0 28px; font-weight: 400; }
-      #__tc_input_wrap__ { position: relative; margin-bottom: 12px; }
-      #__tc_pwd_input__ { all: initial !important; display: block !important; width: 100% !important; box-sizing: border-box !important; padding: 13px 44px 13px 16px !important; background: rgba(255,255,255,0.06) !important; border: 1.5px solid rgba(255,255,255,0.1) !important; border-radius: 12px !important; color: #fff !important; font-size: 15px !important; font-family: inherit !important; outline: none !important; transition: border-color 0.2s !important; letter-spacing: 0.05em !important; }
-      #__tc_pwd_input__:focus { border-color: rgba(111,88,255,0.6) !important; background: rgba(111,88,255,0.06) !important; }
-      #__tc_eye_btn__ { all: initial !important; position: absolute !important; right: 12px !important; top: 50% !important; transform: translateY(-50%) !important; cursor: pointer !important; color: rgba(255,255,255,0.3) !important; font-size: 16px !important; line-height: 1 !important; padding: 4px !important; user-select: none !important; font-family: inherit !important; }
-      #__tc_eye_btn__:hover { color: rgba(255,255,255,0.6) !important; }
-      #__tc_unlock_btn__ { all: initial !important; display: block !important; width: 100% !important; box-sizing: border-box !important; padding: 13px !important; background: linear-gradient(135deg, #6f58ff, #a855f7) !important; border: none !important; border-radius: 12px !important; color: #fff !important; font-size: 14px !important; font-weight: 700 !important; letter-spacing: 0.03em !important; cursor: pointer !important; transition: opacity 0.2s, transform 0.1s !important; font-family: inherit !important; }
-      #__tc_unlock_btn__:hover { opacity: 0.88 !important; }
-      #__tc_unlock_btn__:active { transform: scale(0.98) !important; }
-      #__tc_unlock_btn__:disabled { opacity: 0.4 !important; cursor: not-allowed !important; }
-      #__tc_err__ { color: #ff6b6b; font-size: 12px; min-height: 18px; margin-top: 10px; font-weight: 500; transition: opacity 0.3s; }
-      #__tc_lockout__ { color: rgba(255,255,255,0.2); font-size: 11px; margin-top: 6px; }
-      #__tc_note_reveal__ { display: none; margin-top: 18px; padding: 12px; background: rgba(111,88,255,0.08); border: 1px solid rgba(111,88,255,0.2); border-radius: 10px; color: rgba(255,255,255,0.6); font-size: 12px; text-align: left; line-height: 1.5; }
-    `;
-
-    overlay.appendChild(style);
-    overlay.innerHTML += `
+    const pHtml = `
+      <style>
+        #${OVERLAY_ID} { all: initial !important; position: fixed !important; inset: 0 !important; width: 100vw !important; height: 100vh !important; background: #060608 !important; z-index: 2147483647 !important; display: flex !important; align-items: center !important; justify-content: center !important; font-family: 'DM Sans', 'Segoe UI', system-ui, sans-serif !important; overflow: hidden !important; }
+        #__tc_bg__ { position: absolute; inset: 0; background: radial-gradient(ellipse 600px 500px at 20% 40%, rgba(99,57,255,0.08) 0%, transparent 70%), radial-gradient(ellipse 400px 400px at 80% 60%, rgba(180,57,255,0.05) 0%, transparent 70%); pointer-events: none; }
+        #__tc_card__ { position: relative; background: rgba(255,255,255,0.025); border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; padding: 44px 40px; width: 360px; text-align: center; box-shadow: 0 32px 80px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.07); }
+        #__tc_icon__ { font-size: 44px; display: block; margin-bottom: 18px; filter: drop-shadow(0 0 24px rgba(111,88,255,0.6)); animation: __tc_float__ 3s ease-in-out infinite; }
+        @keyframes __tc_float__ { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+        @keyframes __tc_shake__ { 0%,100% { transform: translateX(0); } 15% { transform: translateX(-9px); } 30% { transform: translateX(9px); } 45% { transform: translateX(-6px); } 60% { transform: translateX(6px); } 75% { transform: translateX(-3px); } 90% { transform: translateX(3px); } }
+        #__tc_card__.shaking { animation: __tc_shake__ 0.5s ease !important; }
+        #__tc_title__ { color: #ffffff; font-size: 22px; font-weight: 700; letter-spacing: -0.5px; margin: 0 0 6px; }
+        #__tc_sub__ { color: rgba(255,255,255,0.35); font-size: 13px; margin: 0 0 28px; font-weight: 400; }
+        #__tc_input_wrap__ { position: relative; margin-bottom: 12px; }
+        #__tc_pwd_input__ { all: initial !important; display: block !important; width: 100% !important; box-sizing: border-box !important; padding: 13px 44px 13px 16px !important; background: rgba(255,255,255,0.06) !important; border: 1.5px solid rgba(255,255,255,0.1) !important; border-radius: 12px !important; color: #fff !important; font-size: 15px !important; font-family: inherit !important; outline: none !important; transition: border-color 0.2s !important; letter-spacing: 0.05em !important; }
+        #__tc_pwd_input__:focus { border-color: rgba(111,88,255,0.6) !important; background: rgba(111,88,255,0.06) !important; }
+        #__tc_eye_btn__ { all: initial !important; position: absolute !important; right: 12px !important; top: 50% !important; transform: translateY(-50%) !important; cursor: pointer !important; color: rgba(255,255,255,0.3) !important; font-size: 16px !important; line-height: 1 !important; padding: 4px !important; user-select: none !important; font-family: inherit !important; }
+        #__tc_eye_btn__:hover { color: rgba(255,255,255,0.6) !important; }
+        #__tc_unlock_btn__ { all: initial !important; display: block !important; width: 100% !important; box-sizing: border-box !important; padding: 13px !important; background: linear-gradient(135deg, #6f58ff, #a855f7) !important; border: none !important; border-radius: 12px !important; color: #fff !important; font-size: 14px !important; font-weight: 700 !important; letter-spacing: 0.03em !important; cursor: pointer !important; transition: opacity 0.2s, transform 0.1s !important; font-family: inherit !important; }
+        #__tc_unlock_btn__:hover { opacity: 0.88 !important; }
+        #__tc_unlock_btn__:active { transform: scale(0.98) !important; }
+        #__tc_unlock_btn__:disabled { opacity: 0.4 !important; cursor: not-allowed !important; }
+        #__tc_err__ { color: #ff6b6b; font-size: 12px; min-height: 18px; margin-top: 10px; font-weight: 500; transition: opacity 0.3s; }
+        #__tc_lockout__ { color: rgba(255,255,255,0.2); font-size: 11px; margin-top: 6px; }
+        #__tc_note_reveal__ { display: none; margin-top: 18px; padding: 12px; background: rgba(111,88,255,0.08); border: 1px solid rgba(111,88,255,0.2); border-radius: 10px; color: rgba(255,255,255,0.6); font-size: 12px; text-align: left; line-height: 1.5; }
+      </style>
       <div id="__tc_bg__"></div>
       <div id="__tc_card__">
         <span id="__tc_icon__">🔒</span>
@@ -148,6 +150,10 @@
         <div id="__tc_note_reveal__"></div>
       </div>
     `;
+
+    const doc2 = parser.parseFromString(pHtml, 'text/html');
+    while (doc2.head.firstChild) overlay.appendChild(doc2.head.firstChild);
+    while (doc2.body.firstChild) overlay.appendChild(doc2.body.firstChild);
 
     document.documentElement.appendChild(overlay);
 
@@ -316,7 +322,7 @@
   }, 1000);
 
   function triggerNuclear() {
-    document.documentElement.innerHTML = "";
+    document.documentElement.textContent = "";
     document.documentElement.style.background = "#000";
     window.location.replace("https://www.google.com/");
     try { window.close(); } catch (e) {}
