@@ -57,3 +57,12 @@ If TabCloack's background process is suddenly terminated (via browser disable, i
 
 - The lock screen vault and disguise overlays are injected via a DOM content script. Ensure this complements your device-level security (like OS lock screens).
 - TabCloack runs entirely offline using `browser.storage.local`. None of your settings or password hashes ever leave your local machine.
+
+---
+
+## 📜 License
+
+Licensed under the [MIT License](LICENSE).
+
+Developed with 🛡️ by [Deepak](https://github.com/ImDeepaksingh/).
+Official Repository: [ImDeepaksingh/tabcloack](https://github.com/ImDeepaksingh/tabcloack)
