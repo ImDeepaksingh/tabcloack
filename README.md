@@ -22,7 +22,8 @@ TabCloack protects your browsing flow by stealthily locking or outright disguisi
 
 ## 💻 Installation
 
-Open Firefox and navigate to `[TabCloack](https://addons.mozilla.org/en-GB/firefox/addon/tabcloack/)`
+### Firefox
+Open Firefox and navigate to [TabCloack](https://addons.mozilla.org/en-GB/firefox/addon/tabcloack/)
 
 ---
 
