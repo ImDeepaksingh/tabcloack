@@ -22,12 +22,7 @@ TabCloack protects your browsing flow by stealthily locking or outright disguisi
 
 ## 💻 Installation
 
-1. Open Firefox and navigate to `about:debugging#/runtime/this-firefox`
-2. Click **"Load Temporary Add-on…"**
-3. Open the TabCloack folder and select **`manifest.json`**
-4. Pin the 🔒 TabCloack icon to your toolbar to access the manager.
-
-*For permanent installation (unsigned in development), configure `about:config` by toggling `xpinstall.signatures.required` to `false`, and install from the add-on gallery.*
+Open Firefox and navigate to `[TabCloack](https://addons.mozilla.org/en-GB/firefox/addon/tabcloack/)`
 
 ---
 
